@@ -12,19 +12,13 @@ node {
     imageName = "${registryHost}${appName}:${tag}"
     env.BUILDIMG=imageName
 
-    latestName = "${registryHost}${appName}:latest"
-
     stage "Build"
     
         sh "docker build -t ${imageName} -f applications/hello-kenzan/Dockerfile applications/hello-kenzan"
     
     stage "Push"
 
-        sh "docker tag ${imageName} ${latestName}"
-
-        sh "docker push ${latestName}"
-        sh "docker rmi ${latestName}"
-        sh "docker rmi ${imageName}"
+        sh "docker push ${imageName}"
 
     stage "Deploy"
 
